@@ -1,4 +1,5 @@
 # Codestream 2.0
+![Travis CI Build Status](https://travis-ci.org/colin92/Codestream2.0.svg?branch=master)
 
 
 ## Contributors
