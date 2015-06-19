@@ -1,15 +1,15 @@
-var dbURI = 'mongodb://localhost:27017/meaniscule-app-tests';
+var dbURI = 'mongodb://localhost:27017/codestream-test';
 var clearDB = require('mocha-mongoose')(dbURI);
 
 var expect = require('chai').expect;
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
-require('../../../server/db/models/nodemodule');
+require('../../../server/db/models/users');
 
-var Nodemodule = mongoose.model('Nodemodule');
+var User = mongoose.model('User');
 
-describe('Nodemodule model', function () {
+describe('User model', function () {
   beforeEach('Connect to db', function (done) {
     if (mongoose.connection.db) return done();
     mongoose.connect(dbURI, done);
@@ -20,16 +20,16 @@ describe('Nodemodule model', function () {
   });
 
   it('should exist', function () {
-      expect(Nodemodule).to.be.a('function');
+      expect(User).to.be.a('function');
   });
 
-  describe('Nodemodule creation', function() {
+  describe('User creation', function() {
 
-    it('should create a module in the db', function(done){
+    it('should create a user in the db', function(done){
 
-      Nodemodule.create({ title: "express", repoUrl: "http://github.com/express" })
+      User.create({ userName: "" })
         .then(function(data) {
-          Nodemodule.findById(data).exec()
+          User.findById(data).exec()
             .then(function(data) {
               expect(data).to.be.a('object');
               done();
