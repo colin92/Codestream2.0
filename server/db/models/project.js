@@ -26,4 +26,15 @@ var projectSchema = new mongoose.Schema({
   }
 });
 
+var generateAccessCode = function() {
+  return Date.now().toString(36);
+};
+
+projectSchema.statics.generateAccessCode = generateAccessCode;
+
+projectSchema.pre('save', function(next) {
+  this.accessCode = this.constructor.generateAccessCode();
+  next();
+});
+
 mongoose.model('Project', projectSchema);
