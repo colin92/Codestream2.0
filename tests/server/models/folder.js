@@ -5,27 +5,31 @@ var expect = require('chai').expect;
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
-require('../../../server/db/models/project');
+require('../../../server/db/models/folder');
 
-var Project = mongoose.model('Project');
+var Folder = mongoose.model('Folder');
 
-describe('Project model', function () {
+describe('Folder model', function () {
+  beforeEach('Connect to db', function (done) {
+    if (mongoose.connection.db) return done();
+    mongoose.connect(dbURI, done);
+  });
 
   afterEach('Clear test database', function (done) {
     clearDB(done);
   });
 
   it('should exist', function () {
-      expect(Project).to.be.a('function');
+      expect(Folder).to.be.a('function');
   });
 
-  describe('Project creation', function() {
+  describe('Folder creation', function() {
 
-    xit('should create a project in the db', function(done){
+    xit('should create a folder in the db', function(done){
 
-      Project.create({})
+      Folder.create({})
         .then(function(data) {
-          Project.findById(data).exec()
+          Folder.findById(data).exec()
             .then(function(data) {
               expect(data).to.be.a('object');
               done();

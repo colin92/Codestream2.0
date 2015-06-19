@@ -5,27 +5,31 @@ var expect = require('chai').expect;
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
-require('../../../server/db/models/project');
+require('../../../server/db/models/snapshot');
 
-var Project = mongoose.model('Project');
+var Folder = mongoose.model('Snapshot');
 
-describe('Project model', function () {
+describe('Snapshot model', function () {
+  beforeEach('Connect to db', function (done) {
+    if (mongoose.connection.db) return done();
+    mongoose.connect(dbURI, done);
+  });
 
   afterEach('Clear test database', function (done) {
     clearDB(done);
   });
 
   it('should exist', function () {
-      expect(Project).to.be.a('function');
+      expect(Snapshot).to.be.a('function');
   });
 
-  describe('Project creation', function() {
+  describe('Snapshot creation', function() {
 
-    xit('should create a project in the db', function(done){
+    xit('should create a snapshot in the db', function(done){
 
-      Project.create({})
+      Snapshot.create({})
         .then(function(data) {
-          Project.findById(data).exec()
+          Snapshot.findById(data).exec()
             .then(function(data) {
               expect(data).to.be.a('object');
               done();
