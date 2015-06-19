@@ -12,17 +12,20 @@ var projectSchema = new mongoose.Schema({
   modifiedDate: {
     type: Date
   },
-  users: {
-    type: [Schema.ObjectId]
-  },
-  owner: {
-    type: Schema.ObjectId
-  },
   accessCode: {
     type: String
   },
+  users: {
+    type: [mongoose.Schema.ObjectId],
+    ref: 'UserSchema'
+  },
+  owner: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'UserSchema'
+  },
   rootFolder: {
-    type: Schema.ObjectId
+    type: mongoose.Schema.ObjectId,
+    ref: 'FolderSchema'
   }
 });
 
