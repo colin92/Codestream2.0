@@ -5,11 +5,11 @@ var expect = require('chai').expect;
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
-require('../../../server/db/models/document');
+require('../../../server/db/models/snapshot');
 
-var Folder = mongoose.model('Document');
+var Snapshot = mongoose.model('Snapshot');
 
-describe('Document model', function () {
+describe('Snapshot model', function () {
   beforeEach('Connect to db', function (done) {
     if (mongoose.connection.db) return done();
     mongoose.connect(dbURI, done);
@@ -20,16 +20,16 @@ describe('Document model', function () {
   });
 
   it('should exist', function () {
-      expect(Document).to.be.a('function');
+      expect(Snapshot).to.be.a('function');
   });
 
-  describe('Document creation', function() {
+  describe('Snapshot creation', function() {
 
-    xit('should create a document in the db', function(done){
+    xit('should create a snapshot in the db', function(done){
 
-      Document.create({})
+      Snapshot.create({})
         .then(function(data) {
-          Document.findById(data).exec()
+          Snapshot.findById(data).exec()
             .then(function(data) {
               expect(data).to.be.a('object');
               done();
