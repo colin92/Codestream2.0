@@ -1,6 +1,6 @@
 var Promise = require('bluebird');
 var chalk = require('chalk');
-var dbName = "meaniscule-app";
+var dbName = "codestream2";
 
 var DATABASE_URI = "mongodb://localhost:27017/" + dbName;
 
