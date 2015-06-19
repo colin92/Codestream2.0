@@ -10,10 +10,6 @@ require('../../../server/db/models/project');
 var Project = mongoose.model('Project');
 
 describe('Project model', function () {
-  beforeEach('Connect to db', function (done) {
-    if (mongoose.connection.db) return done();
-    mongoose.connect(dbURI, done);
-  });
 
   afterEach('Clear test database', function (done) {
     clearDB(done);

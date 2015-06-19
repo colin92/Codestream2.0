@@ -10,10 +10,6 @@ require('../../../server/db/models/users');
 var User = mongoose.model('User');
 
 describe('User model', function () {
-  beforeEach('Connect to db', function (done) {
-    if (mongoose.connection.db) return done();
-    mongoose.connect(dbURI, done);
-  });
 
   afterEach('Clear test database', function (done) {
     clearDB(done);
