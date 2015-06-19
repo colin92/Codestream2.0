@@ -5,31 +5,27 @@ var expect = require('chai').expect;
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
-require('../../../server/db/models/nodemodule');
+require('../../../server/db/models/project');
 
-var Nodemodule = mongoose.model('Nodemodule');
+var Project = mongoose.model('Project');
 
-describe('Nodemodule model', function () {
-  beforeEach('Connect to db', function (done) {
-    if (mongoose.connection.db) return done();
-    mongoose.connect(dbURI, done);
-  });
+describe('Project model', function () {
 
   afterEach('Clear test database', function (done) {
     clearDB(done);
   });
 
   it('should exist', function () {
-      expect(Nodemodule).to.be.a('function');
+      expect(Project).to.be.a('function');
   });
 
-  describe('Nodemodule creation', function() {
+  describe('Project creation', function() {
 
-    it('should create a module in the db', function(done){
+    it('should create a project in the db', function(done){
 
-      Nodemodule.create({ title: "express", repoUrl: "http://github.com/express" })
+      Project.create({})
         .then(function(data) {
-          Nodemodule.findById(data).exec()
+          Project.findById(data).exec()
             .then(function(data) {
               expect(data).to.be.a('object');
               done();
