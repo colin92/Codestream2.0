@@ -2,4 +2,9 @@ language: node_js
 node_js:
   - "0.12"
 services: mongodb
+addons:
+  code_climate:
+    repo_token: 2b3df8eb60c570b20d7c6f300e9c5ce3b6727cf499ae5a4bac5d9697e8b40082
+after_script:
+  - codeclimate < lcov.info
 
