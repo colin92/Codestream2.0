@@ -1,14 +1,19 @@
 //'use strict';
 var mongoose = require('mongoose');
 
+var diffSchema = new mongoose.Schema({
+  createdDate: {
+    type: Date
+  },
+  order: Number
+});
+
 var snapshotSchema = new mongoose.Schema({
   createdDate: {
     type: Date
   },
-  diffs: {
-    type: [mongoose.Schema.ObjectId],
-    ref: 'DiffSchema'
-  }
+  diffs: [diffSchema]
 });
+
 
 mongoose.model('Snapshot', snapshotSchema);
