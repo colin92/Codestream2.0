@@ -2,7 +2,6 @@
 var router = require('express').Router();
 var mongoose = require('mongoose');
 //require('..//models/nodemodule');
-var NodeModule = mongoose.model('Nodemodule');
 
 module.exports = router;
 
@@ -18,10 +17,5 @@ router.get('/', function (req, res) {
 
 router.post('/', function(req, res, next) {
   console.log(req.body);
-  
-  NodeModule
-    .create(req.body, function(err, nodeModule){
-      if(err) return next(err);
-      res.send(nodeModule);
-    });
+  res.send('hello world');
 });
