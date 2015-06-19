@@ -18,4 +18,4 @@ var documentSchema = new mongoose.Schema({
   }
 });
 
-mongoose.model('Folder', documentSchema);
+mongoose.model('Document', documentSchema);
