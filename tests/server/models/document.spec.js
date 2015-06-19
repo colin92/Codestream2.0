@@ -25,18 +25,36 @@ describe('Document model', function () {
 
   describe('Document creation', function() {
 
-    xit('should create a document in the db', function(done){
+    it('should create a document in the db', function(done){
+      var doc = {
+        name: "my doc",
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
 
-      Document.create({})
+      Document.create(doc)
         .then(function(data) {
           Document.findById(data).exec()
             .then(function(data) {
+              //console.log(data);
               expect(data).to.be.a('object');
               done();
             })
             .then(null, done);
         });
-    });  
-      
+    }); 
+
+    it('should reject a document with no name', function(done) {
+      var doc = {
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
+
+      Document.create(doc)
+        .then(null, function(data) {
+          expect(data).to.be.instanceOf(Error);
+          done();
+        });
+    });     
   });
 });
