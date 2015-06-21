@@ -50,6 +50,21 @@ describe('Project model', function () {
           expect(data).to.be.instanceOf(Error);
           done();
         });
+    });
+
+    it('should generate an access code for a new project', function(done) {
+      var project = {
+        name: "my project",
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
+
+      Project.create(project)
+        .then(function(data) {
+          expect(data.accessCode).to.be.a('string');
+          done();
+        })
+        .then(null, done);
     }); 
       
   });
