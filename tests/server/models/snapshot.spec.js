@@ -24,7 +24,6 @@ describe('Snapshot model', function () {
   });
 
   describe('Snapshot creation', function() {
-
     it('should create a snapshot in the db', function(done){
       var snapshot = {
         createdDate: Date.now() - 10000000,
@@ -40,7 +39,15 @@ describe('Snapshot model', function () {
             .then(null, done);
         })
         .then(null, done);
-    });  
-      
+    });      
+  });
+
+  describe('Diff creation', function() {
+    xit('should create a diff in the db', function(done) {
+      var snapshot = {
+        createdDate: Date.now() - 10000000,
+      };
+
+    });
   });
 });
