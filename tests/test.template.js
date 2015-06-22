@@ -1,4 +1,4 @@
-//  var dbURI = 'mongodb://localhost:27017/codestream-test';
+//  var dbURI = require('../../../config.js').test.dbURI;
 //  var clearDB = require('mocha-mongoose')(dbURI);
 //
 //  var expect = require('chai').expect;
