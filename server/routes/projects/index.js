@@ -24,3 +24,21 @@ router.post('/', function(req, res, next) {
     });
 
 });
+
+router.put('/:id', function(req, res, next) {
+  var id = req.params.id;
+  var body = req.body;
+  //console.log(id, body);
+
+  Project.findOne({"_id": id}).exec()
+    .then(function(foundProject) {
+      foundProject = body;
+      return foundProject.save().exec();
+    })
+    .then(function(savedProject) {
+      res.status(201).send(savedProject);
+      next();
+    })
+    .then(null, next);
+
+});

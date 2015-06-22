@@ -58,4 +58,40 @@ describe('Projects route, /api/projects', function () {
     });
 
   });
+
+  describe('PUT', function() {
+    var project = {
+      name: "my project",
+      createdDate: Date.now() - 10000000,
+      modifiedDate: Date.now()
+    }; 
+  
+    var id;
+    var updatedProject;
+
+    beforeEach('write project to db', function(done) {
+      Project.create(project)
+        .then(function(savedProject) {
+          id = savedProject._id;
+          savedProject.name = 'your project';
+          updatedProject = savedProject;      
+          done();
+        })
+        .then(null, done);
+    });
+
+    it('Gets a 201 response and updates to the db', function(done) {
+      supertest(app.app)
+        .put('/api/projects/' + id)
+        .send(updatedProject)
+        .expect(201)
+        .end(function(err, res) {
+          //console.log("TTTTTTTTTTTTTTTT res.body", res.body.name);
+          if (err) return done(err);
+          expect(res.body.name).to.equal('your project');
+          done();
+        });
+    });
+
+  });
 });
