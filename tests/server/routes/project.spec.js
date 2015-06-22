@@ -86,7 +86,7 @@ describe('Projects route, /api/projects', function () {
         .send(updatedProject)
         .expect(201)
         .end(function(err, res) {
-          //console.log("TTTTTTTTTTTTTTTT res.body", res.body.name);
+          console.log("TTTTTTTTTTTTTTTT res.body", res.body);
           if (err) return done(err);
           expect(res.body.name).to.equal('your project');
           done();

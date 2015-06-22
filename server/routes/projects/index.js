@@ -32,13 +32,19 @@ router.put('/:id', function(req, res, next) {
 
   Project.findOne({"_id": id}).exec()
     .then(function(foundProject) {
-      foundProject = body;
-      return foundProject.save().exec();
-    })
-    .then(function(savedProject) {
-      res.status(201).send(savedProject);
-      next();
-    })
-    .then(null, next);
+      console.log(foundProject);
+      foundProject.name = body.name;
+      console.log(foundProject);
+      foundProject.save(function(err) {
+        if (err) next(err);
+        console.log(foundProject);
+        res.status(201).send(foundProject);
+      });
+    });
+    // .then(function(savedProject) {
+    //   //res.status(201).send(savedProject);
+    //   next();
+    // })
+    //.then(null, next);
 
 });
