@@ -1,4 +1,4 @@
-var dbURI = 'mongodb://localhost:27017/codestream-test';
+var dbURI = process.env.NODE_ENV === 'test' ? process.env.dbURI : require('../../../config.js').test.dbURI;
 var clearDB = require('mocha-mongoose')(dbURI);
 
 var expect = require('chai').expect;
@@ -10,6 +10,14 @@ require('../../../server/db/models/users');
 var User = mongoose.model('User');
 
 describe('User model', function () {
+
+  before(function(done) {
+    mongoose.connect(dbURI, done);
+  });
+
+  after(function(done) {
+    mongoose.disconnect(done);
+  });
 
   afterEach('Clear test database', function (done) {
     clearDB(done);
@@ -25,14 +33,16 @@ describe('User model', function () {
 
       User.create({ userName: "" })
         .then(function(data) {
-          User.findById(data).exec()
-            .then(function(data) {
-              expect(data).to.be.a('object');
-              done();
-            })
-            .then(null, done);
+
+          return User.findById(data).exec()
+        })
+        .then(function(data) {
+
+            expect(data).to.be.a('object');
+            done();
         })
         .then(null, done);
+;
     });  
       
   });
