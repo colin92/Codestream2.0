@@ -4,12 +4,18 @@ var mongoose = require('mongoose');
 var diffSchema = new mongoose.Schema({
   createdDate: {
     type: Date
+  },
+  diffContent: {
+    type: String
   }
 });
 
 var snapshotSchema = new mongoose.Schema({
   createdDate: {
     type: Date
+  },
+  fileContent: {
+    type: String
   },
   diffs: [diffSchema]
 });
