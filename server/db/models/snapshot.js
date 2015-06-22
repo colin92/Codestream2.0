@@ -4,8 +4,7 @@ var mongoose = require('mongoose');
 var diffSchema = new mongoose.Schema({
   createdDate: {
     type: Date
-  },
-  order: Number
+  }
 });
 
 var snapshotSchema = new mongoose.Schema({
@@ -15,5 +14,10 @@ var snapshotSchema = new mongoose.Schema({
   diffs: [diffSchema]
 });
 
+
+// diffSchema.pre('save', function(next) {
+//   this.diffs.order = this.diffs.length;
+//   next();
+// });
 
 mongoose.model('Snapshot', snapshotSchema);

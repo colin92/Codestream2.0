@@ -31,7 +31,8 @@ describe('User model', function () {
               done();
             })
             .then(null, done);
-        });
+        })
+        .then(null, done);
     });  
       
   });

@@ -21,9 +21,14 @@ describe('Project model', function () {
 
   describe('Project creation', function() {
 
-    xit('should create a project in the db', function(done){
+    it('should create a project in the db', function(done){
+      var project = {
+        name: "my project",
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
 
-      Project.create({})
+      Project.create(project)
         .then(function(data) {
           Project.findById(data).exec()
             .then(function(data) {
@@ -33,6 +38,34 @@ describe('Project model', function () {
             .then(null, done);
         });
     });  
+
+    it('should reject a project with no name', function(done) {
+      var doc = {
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
+
+      Project.create(doc)
+        .then(null, function(data) {
+          expect(data).to.be.instanceOf(Error);
+          done();
+        });
+    });
+
+    it('should generate an access code for a new project', function(done) {
+      var project = {
+        name: "my project",
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
+
+      Project.create(project)
+        .then(function(data) {
+          expect(data.accessCode).to.be.a('string');
+          done();
+        })
+        .then(null, done);
+    }); 
       
   });
 });

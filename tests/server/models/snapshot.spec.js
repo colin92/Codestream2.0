@@ -24,10 +24,12 @@ describe('Snapshot model', function () {
   });
 
   describe('Snapshot creation', function() {
+    it('should create a snapshot in the db', function(done){
+      var snapshot = {
+        createdDate: Date.now() - 10000000,
+      };
 
-    xit('should create a snapshot in the db', function(done){
-
-      Snapshot.create({})
+      Snapshot.create(snapshot)
         .then(function(data) {
           Snapshot.findById(data).exec()
             .then(function(data) {
@@ -35,8 +37,17 @@ describe('Snapshot model', function () {
               done();
             })
             .then(null, done);
-        });
-    });  
-      
+        })
+        .then(null, done);
+    });      
+  });
+
+  describe('Diff creation', function() {
+    xit('should create a diff in the db', function(done) {
+      var snapshot = {
+        createdDate: Date.now() - 10000000,
+      };
+
+    });
   });
 });
