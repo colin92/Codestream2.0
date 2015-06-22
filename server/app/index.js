@@ -73,5 +73,6 @@ var startServer = function() {
 
 module.exports = {
   startApp: startApp,
-  startServer: startServer
+  startServer: startServer,
+  app: app // for route testing
 };
