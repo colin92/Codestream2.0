@@ -8,14 +8,19 @@ var Project = mongoose.model('Project');
 module.exports = router;
 
 router.get('/', function (req, res) {
-  //console.log("GET projects/");
+
   Project.find().exec()
     .then(function(projects) {
       res.send(projects);
     });
+
 });
 
 router.post('/', function(req, res, next) {
-  console.log(req.body);
-  res.send('hello world');
+  
+  Project.create(req.body)
+    .then(function(savedProject) {
+      res.status(201).send(savedProject);
+    });
+
 });
