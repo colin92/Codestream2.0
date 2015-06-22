@@ -10,7 +10,7 @@ require('../../../server/db');
 
 var Project = mongoose.model('Project');
 var app = require('../../../server/app');
-app.startApp();
+app.startApp(true);
 
 describe('Projects route', function () {
   beforeEach('Establish DB connection', function (done) {

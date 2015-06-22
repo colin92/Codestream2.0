@@ -8,7 +8,7 @@ var Project = mongoose.model('Project');
 module.exports = router;
 
 router.get('/', function (req, res) {
-  console.log("GET projects/");
+  //console.log("GET projects/");
   Project.find().exec()
     .then(function(projects) {
       res.send(projects);

@@ -14,8 +14,9 @@ uncomment the following line and the related `app.use` line below.
 */
 // var bowerPath = path.join(__dirname, '../../bower_components');
 
-var startApp = function() {
-  app.use(logger('dev'));
+var startApp = function(silenceLogger) {
+  // Pass a boolean to startApp to silence the logger for testing
+  if (!silenceLogger) app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
