@@ -1,4 +1,4 @@
-//  var dbURI = require('../../../config.js').test.dbURI;
+//  var dbURI = process.env.NODE_ENV === 'test' ? process.env.dbURI : require('../../../config.js').test.dbURI;
 //  var clearDB = require('mocha-mongoose')(dbURI);
 //
 //  var expect = require('chai').expect;
