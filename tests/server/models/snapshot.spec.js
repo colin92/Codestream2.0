@@ -1,4 +1,4 @@
-var dbURI = 'mongodb://localhost:27017/meaniscule-app-tests';
+var dbURI = require('../../../config.js').test.dbURI;
 var clearDB = require('mocha-mongoose')(dbURI);
 
 var expect = require('chai').expect;
@@ -7,12 +7,16 @@ var mongoose = require('mongoose');
 
 require('../../../server/db/models/snapshot');
 
-var Folder = mongoose.model('Snapshot');
+var Snapshot = mongoose.model('Snapshot');
 
 describe('Snapshot model', function () {
-  beforeEach('Connect to db', function (done) {
-    if (mongoose.connection.db) return done();
+
+  before(function(done) {
     mongoose.connect(dbURI, done);
+  });
+
+  after(function(done) {
+    mongoose.disconnect(done);
   });
 
   afterEach('Clear test database', function (done) {

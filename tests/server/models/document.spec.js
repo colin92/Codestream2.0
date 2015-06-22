@@ -1,18 +1,22 @@
-var dbURI = 'mongodb://localhost:27017/meaniscule-app-tests';
+var dbURI = require('../../../config.js').test.dbURI;
 var clearDB = require('mocha-mongoose')(dbURI);
 
 var expect = require('chai').expect;
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
-require('../../../server/db/models/folder');
+require('../../../server/db/models/document');
 
-var Folder = mongoose.model('Folder');
+var Document = mongoose.model('Document');
 
-describe('Folder model', function () {
-  beforeEach('Connect to db', function (done) {
-    if (mongoose.connection.db) return done();
+describe('Document model', function () {
+
+  before(function(done) {
     mongoose.connect(dbURI, done);
+  });
+
+  after(function(done) {
+    mongoose.disconnect(done);
   });
 
   afterEach('Clear test database', function (done) {
@@ -20,16 +24,16 @@ describe('Folder model', function () {
   });
 
   it('should exist', function () {
-      expect(Folder).to.be.a('function');
+      expect(Document).to.be.a('function');
   });
 
-  describe('Folder creation', function() {
+  describe('Document creation', function() {
 
-    xit('should create a folder in the db', function(done){
+    xit('should create a document in the db', function(done){
 
-      Folder.create({})
+      Document.create({})
         .then(function(data) {
-          Folder.findById(data).exec()
+          Document.findById(data).exec()
             .then(function(data) {
               expect(data).to.be.a('object');
               done();
