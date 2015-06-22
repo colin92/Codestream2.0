@@ -29,9 +29,14 @@ describe('Folder model', function () {
 
   describe('Folder creation', function() {
 
-    xit('should create a folder in the db', function(done){
+    it('should create a folder in the db', function(done){
+      var doc = {
+        name: "my folder",
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
 
-      Folder.create({})
+      Folder.create(doc)
         .then(function(data) {
           Folder.findById(data).exec()
             .then(function(data) {
@@ -41,6 +46,19 @@ describe('Folder model', function () {
             .then(null, done);
         });
     });  
+
+    it('should reject a folder with no name', function(done) {
+      var folder = {
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
+
+      Folder.create(folder)
+        .then(null, function(data) {
+          expect(data).to.be.instanceOf(Error);
+          done();
+        });
+    }); 
       
   });
 });

@@ -33,13 +33,16 @@ describe('User model', function () {
 
       User.create({ userName: "" })
         .then(function(data) {
-          User.findById(data).exec()
-            .then(function(data) {
-              expect(data).to.be.a('object');
-              done();
-            })
-            .then(null, done);
-        });
+
+          return User.findById(data).exec()
+        })
+        .then(function(data) {
+
+            expect(data).to.be.a('object');
+            done();
+        })
+        .then(null, done);
+;
     });  
       
   });
