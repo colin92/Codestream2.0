@@ -1,17 +1,17 @@
 //'use strict';
 var router = require('express').Router();
 var mongoose = require('mongoose');
-//require('..//models/nodemodule');
+require('../../db/models/project');
+
+var Project = mongoose.model('Project');
 
 module.exports = router;
 
 router.get('/', function (req, res) {
-  console.log("GET modules/");
-  NodeModule
-    .find()
-    .exec()
-    .then(function(nodeModules) {
-      res.send(nodeModules);
+  console.log("GET projects/");
+  Project.find().exec()
+    .then(function(projects) {
+      res.send(projects);
     });
 });
 
