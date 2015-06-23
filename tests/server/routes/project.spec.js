@@ -30,7 +30,7 @@ describe('Projects route, /api/projects', function () {
         .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
-          expect(res.body).to.be.an.array;
+          expect(res.body).to.be.an('array');
           done();
         });
     });
