@@ -1,8 +1,8 @@
 module.exports = {
   dbName: process.env.DB_URI,
   google: {
-    secret_key: process.env.GOOGLE_CLIENT_SECRET,
-    token: process.env.GOOGLE_CLIENT_ID,
+    key: process.env.GOOGLE_CLIENT_SECRET,
+    id: process.env.GOOGLE_CLIENT_ID,
     callbackURL: 'http://localhost:4545/auth/google/return',
     realm: 'http://localhost:4545/'
   },

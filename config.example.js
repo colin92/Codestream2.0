@@ -2,8 +2,8 @@ var configs = {};
 configs.production = {
   dbName: 'codestream2',
   google: {
-    secret_key: '',
-    token: '',
+    key: '',
+    id: '',
     callbackURL: 'http://app.codestream.co/auth/google/return',
     realm: 'http://app.codestream.co/'
   },
@@ -15,8 +15,8 @@ configs.production = {
 configs.development = {
   dbName: 'codestream2-dev',
   google: {
-    secret_key: '',
-    token: '',
+    key: '',
+    id: '',
     callbackURL: 'http://localhost:4545/auth/google/return',
     realm: 'http://localhost:4545/'
   },
