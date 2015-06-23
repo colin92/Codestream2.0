@@ -1,4 +1,4 @@
-var dbURI = 'mongodb://localhost:27017/meaniscule-app-tests';
+var dbURI = process.env.NODE_ENV === 'test' ? process.env.dbURI : require('../../../config.js').test.dbURI;
 var clearDB = require('mocha-mongoose')(dbURI);
 
 var expect = require('chai').expect;
@@ -10,6 +10,14 @@ require('../../../server/db/models/project');
 var Project = mongoose.model('Project');
 
 describe('Project model', function () {
+
+  before(function(done) {
+    mongoose.connect(dbURI, done);
+  });
+
+  after(function(done) {
+    mongoose.disconnect(done);
+  });
 
   afterEach('Clear test database', function (done) {
     clearDB(done);
