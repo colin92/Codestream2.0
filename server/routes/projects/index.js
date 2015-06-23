@@ -42,3 +42,13 @@ router.put('/:id', function(req, res, next) {
     });
 
 });
+
+router.delete('/:id', function(req, res, next) {
+  var id = req.params.id;
+
+  Project.findOneAndRemove({'id': id}).exec()
+    .then(function() {
+      res.sendStatus(201);
+    })
+    .then(null, next);
+});

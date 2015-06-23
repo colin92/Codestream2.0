@@ -92,4 +92,35 @@ describe('Projects route, /api/projects', function () {
     });
 
   });
+
+  describe('DELETE', function() {
+    var project = {
+      name: "my project",
+      createdDate: Date.now() - 10000000,
+      modifiedDate: Date.now()
+    }; 
+
+    var id;
+    var updatedProject;
+
+    beforeEach('write project to db', function(done) {
+      Project.create(project)
+        .then(function(savedProject) {
+          id = savedProject._id;
+          project.name = 'your project';
+          done();
+        })
+        .then(null, done);
+    });
+
+    it('Gets a 201 response and deletes from the db', function(done) {
+      supertest(app.app)
+        .delete('/api/projects/' + id)
+        .expect(201)
+        .end(function(err, res) {
+          if (err) return done(err);
+          done();
+        });
+    });    
+  });
 });
