@@ -73,8 +73,7 @@ describe('Projects route, /api/projects', function () {
       Project.create(project)
         .then(function(savedProject) {
           id = savedProject._id;
-          savedProject.name = 'your project';
-          updatedProject = savedProject;      
+          project.name = 'your project';
           done();
         })
         .then(null, done);
@@ -83,10 +82,9 @@ describe('Projects route, /api/projects', function () {
     it('Gets a 201 response and updates to the db', function(done) {
       supertest(app.app)
         .put('/api/projects/' + id)
-        .send(updatedProject)
+        .send(project)
         .expect(201)
         .end(function(err, res) {
-          console.log("TTTTTTTTTTTTTTTT res.body", res.body);
           if (err) return done(err);
           expect(res.body.name).to.equal('your project');
           done();

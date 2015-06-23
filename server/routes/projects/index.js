@@ -28,23 +28,17 @@ router.post('/', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   var id = req.params.id;
   var body = req.body;
-  //console.log(id, body);
 
-  Project.findOne({"_id": id}).exec()
+  Project.findOne({'_id': id}).exec()
     .then(function(foundProject) {
-      console.log(foundProject);
       foundProject.name = body.name;
-      console.log(foundProject);
+      foundProject._id = id;
+
       foundProject.save(function(err) {
-        if (err) next(err);
-        console.log(foundProject);
+        if (err) return next(err);
         res.status(201).send(foundProject);
       });
+
     });
-    // .then(function(savedProject) {
-    //   //res.status(201).send(savedProject);
-    //   next();
-    // })
-    //.then(null, next);
 
 });
