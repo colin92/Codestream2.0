@@ -13,9 +13,12 @@ var app = require('../../../server/app');
 app.startApp(true);
 
 describe('Folder route, /api/folder', function () {
-  beforeEach('Establish DB connection', function (done) {
-    if (mongoose.connection.db) return done();
+  before(function (done) {
     mongoose.connect(dbURI, done);
+  });
+
+  after(function (done) {
+    mongoose.disconnect(done);
   });
 
   afterEach('Clear test database', function (done) {
