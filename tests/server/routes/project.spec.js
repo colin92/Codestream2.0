@@ -24,7 +24,7 @@ describe('Projects route, /api/projects', function () {
 
   describe('GET', function() {
 
-    it('Gets a 200 response with an array', function(done) {
+    it('`/` Gets a 200 response with an array', function(done) {
       supertest(app.app)
         .get('/api/projects')
         .expect(200)
@@ -39,7 +39,7 @@ describe('Projects route, /api/projects', function () {
 
   describe('POST', function() {
     
-    it('Gets a 201 response and writes to the db', function(done) {
+    it('`/` Gets a 201 response and writes to the db', function(done) {
       var project = {
         name: "my project",
         createdDate: Date.now() - 10000000,
@@ -79,7 +79,7 @@ describe('Projects route, /api/projects', function () {
         .then(null, done);
     });
 
-    it('Gets a 201 response and updates to the db', function(done) {
+    it('`/:id` Gets a 201 response and updates to the db', function(done) {
       supertest(app.app)
         .put('/api/projects/' + id)
         .send(project)
@@ -101,24 +101,23 @@ describe('Projects route, /api/projects', function () {
     }; 
 
     var id;
-    var updatedProject;
 
     beforeEach('write project to db', function(done) {
       Project.create(project)
         .then(function(savedProject) {
           id = savedProject._id;
-          project.name = 'your project';
           done();
         })
         .then(null, done);
     });
 
-    it('Gets a 201 response and deletes from the db', function(done) {
+    it('`/:id` Gets a 201 response and deletes from the db', function(done) {
       supertest(app.app)
         .delete('/api/projects/' + id)
         .expect(201)
         .end(function(err, res) {
           if (err) return done(err);
+          expect(res.body.name).to.equal('my project');
           done();
         });
     });    
