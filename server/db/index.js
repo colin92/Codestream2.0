@@ -1,8 +1,10 @@
 var Promise = require('bluebird');
 var chalk = require('chalk');
-var dbName = "codestream2";
+var config = process.env.NODE_ENV === 'development' ? 
+  require('../../../config.js') : require('../../../config.test.js'); 
 
-var DATABASE_URI = "mongodb://localhost:27017/" + dbName;
+
+var DATABASE_URI = "mongodb://localhost:27017/" + config.dbName;
 
 var mongoose = require('mongoose');
 var db = mongoose.connect(DATABASE_URI).connection;

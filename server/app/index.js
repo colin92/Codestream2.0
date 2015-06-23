@@ -4,10 +4,12 @@ var path = require('path');
 var logger = require('morgan');
 var chalk = require('chalk');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var publicPath = path.join(__dirname, '../../public');
 var indexHtmlPath = path.join(__dirname, '../index.html');
 var nodePath = path.join(__dirname, '../../node_modules');
+
 /* 
 Meaniscule doesn't use Bower by default. To use Bower,
 uncomment the following line and the related `app.use` line below.
@@ -22,7 +24,11 @@ var startApp = function(silenceLogger) {
 
   app.use(express.static(publicPath));
   app.use(express.static(nodePath));
+  app.use(session({ secret: 'i am a lasagna hog',
+                    resave: true,
+                    saveUninitialized: false }));
   // app.use(express.static(bowerPath));
+  var authRouter = require('./auth/');
 
   /* 
   Provides a 404 for times when 
@@ -38,7 +44,12 @@ var startApp = function(silenceLogger) {
 
   });
 
+
   // Routes
+
+  //// AUTH routes
+  app.use('/auth', authRouter);
+
   //// APIs for AJAX
   app.use('/api', require('../routes/'));
 
@@ -46,6 +57,7 @@ var startApp = function(silenceLogger) {
   app.use('/', function(req, res, next) {
     res.sendFile(path.join(__dirname, './views/index.html'));
   });
+
 
 
   // Errors
