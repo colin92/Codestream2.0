@@ -18,14 +18,14 @@ router.get('/:id', function (req, res, next) {
 
 });
 
-// router.post('/', function(req, res, next) {
+router.post('/', function(req, res, next) {
   
-//   Project.create(req.body)
-//     .then(function(savedProject) {
-//       res.status(201).send(savedProject);
-//     });
+  Folder.create(req.body)
+    .then(function(savedFolder) {
+      res.status(201).send(savedFolder);
+    });
 
-// });
+});
 
 // router.put('/:id', function(req, res, next) {
 //   var id = req.params.id;

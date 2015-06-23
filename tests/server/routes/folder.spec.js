@@ -52,27 +52,27 @@ describe('Folder route, /api/folder', function () {
 
   });
 
-  // describe('POST', function() {
-    
-  //   it('Gets a 201 response and writes to the db', function(done) {
-  //     var project = {
-  //       name: "my project",
-  //       createdDate: Date.now() - 10000000,
-  //       modifiedDate: Date.now()
-  //     };  
+  describe('POST /', function() {
+    var folder = {
+      name: "my folder",
+      createdDate: Date.now() - 10000000,
+      modifiedDate: Date.now()
+    };  
 
-  //     supertest(app.app)
-  //       .post('/api/projects')
-  //       .send(project)
-  //       .expect(201)
-  //       .end(function(err, res) {
-  //         if (err) return done(err);
-  //         expect(res.body).to.be.an.object;
-  //         done();
-  //       });
-  //   });
+    it('Gets a 201 response and writes to the db', function(done) {
 
-  // });
+      supertest(app.app)
+        .post('/api/folder')
+        .send(folder)
+        .expect(201)
+        .end(function(err, res) {
+          if (err) return done(err);
+          expect(res.body.name).to.equal('my folder');
+          done();
+        });
+    });
+
+  });
 
   // describe('PUT', function() {
   //   var project = {
