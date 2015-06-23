@@ -27,30 +27,30 @@ router.post('/', function(req, res, next) {
 
 });
 
-// router.put('/:id', function(req, res, next) {
-//   var id = req.params.id;
-//   var body = req.body;
+router.put('/:id', function(req, res, next) {
+  var id = req.params.id;
+  var body = req.body;
 
-//   Project.findOne({'_id': id}).exec()
-//     .then(function(foundProject) {
-//       foundProject.name = body.name;
-//       foundProject._id = id;
+  Folder.findOne({'_id': id}).exec()
+    .then(function(foundFolder) {
+      foundFolder.name = body.name;
+      foundFolder._id = id;
 
-//       foundProject.save(function(err) {
-//         if (err) return next(err);
-//         res.status(201).send(foundProject);
-//       });
+      foundFolder.save(function(err) {
+        if (err) return next(err);
+        res.status(201).send(foundFolder);
+      });
 
-//     });
+    });
 
-// });
+});
 
-// router.delete('/:id', function(req, res, next) {
-//   var id = req.params.id;
+router.delete('/:id', function(req, res, next) {
+  var id = req.params.id;
 
-//   Project.findOneAndRemove({'id': id}).exec()
-//     .then(function() {
-//       res.sendStatus(201);
-//     })
-//     .then(null, next);
-// });
+  Folder.findOneAndRemove({'_id': id}).exec()
+    .then(function(deletedFolder) {
+      res.status(201).send(deletedFolder);
+    })
+    .then(null, next);
+});
