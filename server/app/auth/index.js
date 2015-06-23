@@ -1,4 +1,5 @@
-var config = require('../../../config.js');
+var config = process.env.NODE_ENV === 'development' ? 
+  require('../../../config.js') : require('../../../config.test.js'); 
 var router = require('express').Router();
 
 var passport = require('passport');
