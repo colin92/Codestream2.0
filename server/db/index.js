@@ -1,7 +1,7 @@
 var Promise = require('bluebird');
 var chalk = require('chalk');
 var config = process.env.NODE_ENV === 'development' ? 
-  require('../../../config.js') : require('../../../config.test.js'); 
+  require('../../config.js') : require('../../config.test.js'); 
 
 
 var DATABASE_URI = "mongodb://localhost:27017/" + config.dbName;
@@ -25,7 +25,7 @@ var startDbPromise = new Promise(function (resolve, reject) {
 console.log('Starting MongoDB...');
 
 startDbPromise.then(function () {
-    console.log(chalk.green('MongoDB connection opened! dbName:'), chalk.magenta(dbName));
+    console.log(chalk.green('MongoDB connection opened! dbName:'), chalk.magenta(config.dbName));
 });
 
 

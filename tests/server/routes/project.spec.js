@@ -6,6 +6,8 @@ var supertest = require('supertest');
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
+require('../../../server/db/models/project');
+
 var Project = mongoose.model('Project');
 var app = require('../../../server/app');
 app.startApp(true);

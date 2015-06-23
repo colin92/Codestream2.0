@@ -1,4 +1,4 @@
-var dbURI = 'mongodb://localhost:27017/meaniscule-app-tests';
+var dbURI = process.env.NODE_ENV === 'test' ? process.env.dbURI : require('../../../config.js').test.dbURI;
 var clearDB = require('mocha-mongoose')(dbURI);
 
 var expect = require('chai').expect;
@@ -6,7 +6,7 @@ var supertest = require('supertest');
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
-require('../../../server/db');
+require('../../../server/db/models/folder');
 
 var Folder = mongoose.model('Folder');
 var app = require('../../../server/app');
