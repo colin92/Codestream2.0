@@ -16,6 +16,17 @@ router.get('/', function (req, res) {
 
 });
 
+router.get('/:id', function (req, res, next) {
+  var id = req.params.id;
+
+  Project.findById({'_id': id}).exec()
+    .then(function(foundProject) {
+      res.send(foundProject);
+    })
+    .then(null, next);
+
+});
+
 router.post('/', function(req, res, next) {
   
   Project.create(req.body)
