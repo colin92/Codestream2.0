@@ -74,6 +74,43 @@ describe('Project model', function () {
         })
         .then(null, done);
     }); 
+
+  describe('Hooks', function() {
+    var id, modifiedDate; 
+    beforeEach(function(done) {
+      var project = {
+        name: "my project",
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
+      Project.create(project).then(function(data) {
+        id = data._id;
+        modifiedDate = data.modifiedDate;
+        done();
+      });
+    });
+  
+    it('should update modifiedDate when project is updated', function(done) {
+      Project.findOne({_id: id}).then(function(project) {
+        project.name = "a project";
+        return new Promise(function(resolve, reject) {
+          project.save(function(err) {
+            if(err) reject(err);
+            else {
+              resolve();
+            }
+          });
+        });
+      }).then(function() {
+        return Project.findOne({_id: id})
+      }) 
+      .then(function(project) {
+        expect(project.modifiedDate).to.be.above(modifiedDate); 
+        done();
+      })
+      .then(null, done); 
+    });
+  });
       
   });
 });

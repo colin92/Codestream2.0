@@ -48,10 +48,20 @@ var startApp = function(silenceLogger) {
   // Routes
 
   //// AUTH routes
-  app.use('/auth', authRouter);
+  // '/' required in order to add user to req object for all routes
+  app.use('/', authRouter); 
 
   //// APIs for AJAX
   app.use('/api', require('../routes/'));
+
+  app.get('/login', function(req, res) {
+    res.redirect('/auth/google');
+  });
+
+  app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 
   //// Index/Home
   app.use('/', function(req, res, next) {

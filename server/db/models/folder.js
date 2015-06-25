@@ -22,4 +22,12 @@ var folderSchema = new mongoose.Schema({
   }
 });
 
+folderSchema.pre('save', function(next) {
+  if(!this.createdDate) this.createdDate = Date.now();
+  if(this.isModified()) {
+    this.modifiedDate = Date.now(); 
+  }
+  next();
+});
+
 mongoose.model('Folder', folderSchema);

@@ -61,4 +61,42 @@ describe('Document model', function () {
         });
     });     
   });
+
+  describe('Hooks', function() {
+    var id, modifiedDate; 
+    beforeEach(function(done) {
+      var doc = {
+        name: "my doc",
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
+      Document.create(doc).then(function(data) {
+        id = data._id;
+        modifiedDate = data.modifiedDate;
+        done();
+      });
+    });
+  
+    it('should update modifiedDate when project is updated', function(done) {
+      Document.findOne({_id: id}).then(function(doc) {
+        doc.name = "a project";
+        return new Promise(function(resolve, reject) {
+          doc.save(function(err) {
+            if(err) reject(err);
+            else {
+              resolve();
+            }
+          });
+        });
+      }).then(function() {
+        return Document.findOne({_id: id})
+      }) 
+      .then(function(doc) {
+        expect(doc.modifiedDate).to.be.above(modifiedDate); 
+        done();
+      })
+      .then(null, done); 
+    });
+  });
+
 });
