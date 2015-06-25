@@ -26,7 +26,7 @@ describe('Projects route, /api/projects', function () {
     clearDB(done);
   });
 
-  describe('GET', function() {
+  describe('GET /', function() {
 
     it('`/` Gets a 200 response with an array', function(done) {
       supertest(app.app)
