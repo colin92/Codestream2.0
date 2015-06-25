@@ -61,4 +61,42 @@ describe('Folder model', function () {
     }); 
       
   });
+
+  describe('Hooks', function() {
+    var id, modifiedDate; 
+    beforeEach(function(done) {
+      var folder = {
+        name: "my folder",
+        createdDate: Date.now() - 10000000,
+        modifiedDate: Date.now()
+      };
+      Folder.create(folder).then(function(data) {
+        id = data._id;
+        modifiedDate = data.modifiedDate;
+        done();
+      });
+    });
+  
+    it('should update modifiedDate when project is updated', function(done) {
+      Folder.findOne({_id: id}).then(function(folder) {
+        folder.name = "a project";
+        return new Promise(function(resolve, reject) {
+          folder.save(function(err) {
+            if(err) reject(err);
+            else {
+              resolve();
+            }
+          });
+        });
+      }).then(function() {
+        return Folder.findOne({_id: id})
+      }) 
+      .then(function(folder) {
+        expect(folder.modifiedDate).to.be.above(modifiedDate); 
+        done();
+      })
+      .then(null, done); 
+    });
+  });
+
 });
