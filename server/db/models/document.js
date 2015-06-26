@@ -18,4 +18,12 @@ var documentSchema = new mongoose.Schema({
   }
 });
 
+documentSchema.pre('save', function(next) {
+  if(!this.createdDate) this.createdDate = Date.now();
+  if(this.isModified()) {
+    this.modifiedDate = Date.now(); 
+  }
+  next();
+});
+
 mongoose.model('Document', documentSchema);

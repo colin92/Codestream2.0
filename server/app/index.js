@@ -4,24 +4,31 @@ var path = require('path');
 var logger = require('morgan');
 var chalk = require('chalk');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var publicPath = path.join(__dirname, '../../public');
 var indexHtmlPath = path.join(__dirname, '../index.html');
 var nodePath = path.join(__dirname, '../../node_modules');
+
 /* 
 Meaniscule doesn't use Bower by default. To use Bower,
 uncomment the following line and the related `app.use` line below.
 */
 // var bowerPath = path.join(__dirname, '../../bower_components');
 
-var startApp = function() {
-  app.use(logger('dev'));
+var startApp = function(silenceLogger) {
+  // Pass a boolean to startApp to silence the logger for testing
+  if (!silenceLogger) app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use(express.static(publicPath));
   app.use(express.static(nodePath));
+  app.use(session({ secret: 'i am a lasagna hog',
+                    resave: true,
+                    saveUninitialized: false }));
   // app.use(express.static(bowerPath));
+  var authRouter = require('./auth/');
 
   /* 
   Provides a 404 for times when 
@@ -37,14 +44,30 @@ var startApp = function() {
 
   });
 
+
   // Routes
+
+  //// AUTH routes
+  // '/' required in order to add user to req object for all routes
+  app.use('/', authRouter); 
+
   //// APIs for AJAX
   app.use('/api', require('../routes/'));
+
+  app.get('/login', function(req, res) {
+    res.redirect('/auth/google');
+  });
+
+  app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 
   //// Index/Home
   app.use('/', function(req, res, next) {
     res.sendFile(path.join(__dirname, './views/index.html'));
   });
+
 
 
   // Errors
@@ -73,5 +96,6 @@ var startServer = function() {
 
 module.exports = {
   startApp: startApp,
-  startServer: startServer
+  startServer: startServer,
+  app: app // for route testing
 };

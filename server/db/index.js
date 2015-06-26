@@ -1,14 +1,16 @@
 var Promise = require('bluebird');
 var chalk = require('chalk');
-var dbName = "codestream2";
+var config = process.env.NODE_ENV === 'development' ? 
+  require('../../config.js') : require('../../config.test.js'); 
 
-var DATABASE_URI = "mongodb://localhost:27017/" + dbName;
+
+var DATABASE_URI = "mongodb://localhost:27017/" + config.dbName;
 
 var mongoose = require('mongoose');
 var db = mongoose.connect(DATABASE_URI).connection;
 
 // Require your models in here
-require('./models/nodemodule');
+require('./models/users');
 require('./models/project');
 require('./models/folder');
 require('./models/document');
@@ -23,7 +25,7 @@ var startDbPromise = new Promise(function (resolve, reject) {
 console.log('Starting MongoDB...');
 
 startDbPromise.then(function () {
-    console.log(chalk.green('MongoDB connection opened! dbName:'), chalk.magenta(dbName));
+    console.log(chalk.green('MongoDB connection opened! dbName:'), chalk.magenta(config.dbName));
 });
 
 

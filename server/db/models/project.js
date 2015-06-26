@@ -37,6 +37,12 @@ projectSchema.statics.generateAccessCode = generateAccessCode;
 
 projectSchema.pre('save', function(next) {
   this.accessCode = this.constructor.generateAccessCode();
+  
+  if(!this.createdDate) this.createdDate = Date.now();
+  
+  if(this.isModified()) {
+    this.modifiedDate = Date.now(); 
+  }
   next();
 });
 
