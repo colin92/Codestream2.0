@@ -3,5 +3,5 @@ node_js:
   - "0.12"
 services: mongodb
 after_script:
-  - codeclimate < coverage/lcov.info
+  - npm run-script coverage && codeclimate < coverage/lcov.info
 
