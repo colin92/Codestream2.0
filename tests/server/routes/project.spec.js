@@ -41,6 +41,38 @@ describe('Projects route, /api/projects', function () {
 
   });
 
+  describe('GET /:id', function() {
+    var project = {
+      name: "my project",
+      createdDate: Date.now() - 10000000,
+      modifiedDate: Date.now()
+    }; 
+
+    var id;
+
+    beforeEach('write project to db', function(done) {
+      Project.create(project)
+        .then(function(savedProject) {
+          id = savedProject._id;
+          done();
+        })
+        .then(null, done);
+    });
+
+    it('`/:id` Gets a 200 response with an array', function(done) {
+      supertest(app.app)
+        .get('/api/projects/' + id)
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          expect(res.body).to.be.an('object');
+          expect(res.body.name).to.equal('my project');
+          done();
+        });
+    });
+
+  });
+
   describe('POST', function() {
     
     it('`/` Gets a 201 response and writes to the db', function(done) {
