@@ -32,7 +32,6 @@ describe('Document model', function () {
     it('should create a document in the db', function(done){
       var doc = {
         name: "my doc",
-        createdDate: Date.now() - 10000000,
         modifiedDate: Date.now()
       };
 
@@ -50,7 +49,6 @@ describe('Document model', function () {
 
     it('should reject a document with no name', function(done) {
       var doc = {
-        createdDate: Date.now() - 10000000,
         modifiedDate: Date.now()
       };
 
@@ -67,7 +65,6 @@ describe('Document model', function () {
     beforeEach(function(done) {
       var doc = {
         name: "my doc",
-        createdDate: Date.now() - 10000000,
         modifiedDate: Date.now()
       };
       Document.create(doc).then(function(data) {

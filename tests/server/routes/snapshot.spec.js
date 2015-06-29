@@ -28,7 +28,6 @@ describe('Snapshot route, /api/snapshot', function () {
   describe('GET /:id', function() {
     var snapshot = {
       fileContent: "my snapshot",
-      createdDate: Date.now() - 10000000,
     }; 
     var id;
 
@@ -57,7 +56,6 @@ describe('Snapshot route, /api/snapshot', function () {
   describe('POST /', function() {
     var snapshot = {
       fileContent: "my snapshot",
-      createdDate: Date.now() - 10000000,
     };  
 
     it('Gets a 201 response and writes to the db', function(done) {
@@ -78,7 +76,6 @@ describe('Snapshot route, /api/snapshot', function () {
   describe('PUT /:id', function() {
     var snapshot = {
       fileContent: "my snapshot",
-      createdDate: Date.now() - 10000000,
     }; 
   
     var id;
@@ -110,7 +107,6 @@ describe('Snapshot route, /api/snapshot', function () {
   describe('DELETE', function() {
     var snapshot = {
       fileContent: "my snapshot",
-      createdDate: Date.now() - 10000000,
     }; 
 
     var id;

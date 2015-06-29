@@ -30,7 +30,6 @@ describe('Snapshot model', function () {
   describe('Snapshot creation', function() {
     it('should create a snapshot in the db', function(done){
       var snapshot = {
-        createdDate: Date.now() - 10000000,
       };
 
       Snapshot.create(snapshot)
@@ -49,12 +48,10 @@ describe('Snapshot model', function () {
   describe('Diff creation', function() {
     it('should create a diff in the db', function(done) {
       var snapshot = {
-        createdDate: Date.now() - 10000000,
         diffs: []
       };
 
       var diff = {
-        createdDate: Date.now() - 10000000,
         diffContent: "diff content"        
       };
 

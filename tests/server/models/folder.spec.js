@@ -32,7 +32,6 @@ describe('Folder model', function () {
     it('should create a folder in the db', function(done){
       var doc = {
         name: "my folder",
-        createdDate: Date.now() - 10000000,
         modifiedDate: Date.now()
       };
 
@@ -49,7 +48,6 @@ describe('Folder model', function () {
 
     it('should reject a folder with no name', function(done) {
       var folder = {
-        createdDate: Date.now() - 10000000,
         modifiedDate: Date.now()
       };
 
@@ -67,7 +65,6 @@ describe('Folder model', function () {
     beforeEach(function(done) {
       var folder = {
         name: "my folder",
-        createdDate: Date.now() - 10000000,
         modifiedDate: Date.now()
       };
       Folder.create(folder).then(function(data) {

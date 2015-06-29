@@ -28,7 +28,6 @@ describe('Document route, /api/document', function () {
   describe('GET /:id', function() {
     var document = {
       name: "my document",
-      createdDate: Date.now() - 10000000,
       modifiedDate: Date.now()
     }; 
     var id;
@@ -58,7 +57,6 @@ describe('Document route, /api/document', function () {
   describe('POST /', function() {
     var folder = {
       name: "my document",
-      createdDate: Date.now() - 10000000,
       modifiedDate: Date.now()
     };  
 
@@ -80,7 +78,6 @@ describe('Document route, /api/document', function () {
   describe('PUT /:id', function() {
     var document = {
       name: "my document",
-      createdDate: Date.now() - 10000000,
       modifiedDate: Date.now()
     }; 
   
@@ -113,7 +110,6 @@ describe('Document route, /api/document', function () {
   describe('DELETE', function() {
     var document = {
       name: "my document",
-      createdDate: Date.now() - 10000000,
       modifiedDate: Date.now()
     };
 
