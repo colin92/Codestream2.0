@@ -31,8 +31,7 @@ describe('Folder model', function () {
 
     it('should create a folder in the db', function(done){
       var doc = {
-        name: "my folder",
-        modifiedDate: Date.now()
+        name: "my folder"
       };
 
       Folder.create(doc)
@@ -48,7 +47,6 @@ describe('Folder model', function () {
 
     it('should reject a folder with no name', function(done) {
       var folder = {
-        modifiedDate: Date.now()
       };
 
       Folder.create(folder)
@@ -64,8 +62,7 @@ describe('Folder model', function () {
     var id, modifiedDate; 
     beforeEach(function(done) {
       var folder = {
-        name: "my folder",
-        modifiedDate: Date.now()
+        name: "my folder"
       };
       Folder.create(folder).then(function(data) {
         id = data._id;

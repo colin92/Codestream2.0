@@ -27,8 +27,7 @@ describe('Folder route, /api/folder', function () {
 
   describe('GET /:id', function() {
     var folder = {
-      name: "my folder",
-      modifiedDate: Date.now()
+      name: "my folder"
     }; 
     var id;
 
@@ -56,8 +55,7 @@ describe('Folder route, /api/folder', function () {
 
   describe('POST /', function() {
     var folder = {
-      name: "my folder",
-      modifiedDate: Date.now()
+      name: "my folder"
     };  
 
     it('Gets a 201 response and writes to the db', function(done) {
@@ -77,8 +75,7 @@ describe('Folder route, /api/folder', function () {
 
   describe('PUT /:id', function() {
     var folder = {
-      name: "my folder",
-      modifiedDate: Date.now()
+      name: "my folder"
     }; 
   
     var id;
@@ -109,8 +106,7 @@ describe('Folder route, /api/folder', function () {
 
   describe('DELETE', function() {
     var folder = {
-      name: "my folder",
-      modifiedDate: Date.now()
+      name: "my folder"
     };
 
     var id;

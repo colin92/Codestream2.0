@@ -31,8 +31,7 @@ describe('Project model', function () {
 
     it('should create a project in the db', function(done){
       var project = {
-        name: "my project",
-        modifiedDate: Date.now()
+        name: "my project"
       };
 
       Project.create(project)
@@ -48,7 +47,6 @@ describe('Project model', function () {
 
     it('should reject a project with no name', function(done) {
       var doc = {
-        modifiedDate: Date.now()
       };
 
       Project.create(doc)
@@ -60,8 +58,7 @@ describe('Project model', function () {
 
     it('should generate an access code for a new project', function(done) {
       var project = {
-        name: "my project",
-        modifiedDate: Date.now()
+        name: "my project"
       };
 
       Project.create(project)
@@ -76,8 +73,7 @@ describe('Project model', function () {
     var id, modifiedDate; 
     beforeEach(function(done) {
       var project = {
-        name: "my project",
-        modifiedDate: Date.now()
+        name: "my project"
       };
       Project.create(project).then(function(data) {
         id = data._id;

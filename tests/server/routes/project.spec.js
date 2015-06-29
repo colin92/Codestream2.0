@@ -43,8 +43,7 @@ describe('Projects route, /api/projects', function () {
 
   describe('GET /:id', function() {
     var project = {
-      name: "my project",
-      modifiedDate: Date.now()
+      name: "my project"
     }; 
 
     var id;
@@ -76,8 +75,7 @@ describe('Projects route, /api/projects', function () {
     
     it('`/` Gets a 201 response and writes to the db', function(done) {
       var project = {
-        name: "my project",
-        modifiedDate: Date.now()
+        name: "my project"
       };  
 
       supertest(app.app)
@@ -95,8 +93,7 @@ describe('Projects route, /api/projects', function () {
 
   describe('PUT', function() {
     var project = {
-      name: "my project",
-      modifiedDate: Date.now()
+      name: "my project"
     }; 
   
     var id;
@@ -128,8 +125,7 @@ describe('Projects route, /api/projects', function () {
 
   describe('DELETE', function() {
     var project = {
-      name: "my project",
-      modifiedDate: Date.now()
+      name: "my project"
     }; 
 
     var id;
