@@ -28,7 +28,6 @@ describe('Folder route, /api/folder', function () {
   describe('GET /:id', function() {
     var folder = {
       name: "my folder",
-      createdDate: Date.now() - 10000000,
       modifiedDate: Date.now()
     }; 
     var id;
@@ -58,7 +57,6 @@ describe('Folder route, /api/folder', function () {
   describe('POST /', function() {
     var folder = {
       name: "my folder",
-      createdDate: Date.now() - 10000000,
       modifiedDate: Date.now()
     };  
 
@@ -80,7 +78,6 @@ describe('Folder route, /api/folder', function () {
   describe('PUT /:id', function() {
     var folder = {
       name: "my folder",
-      createdDate: Date.now() - 10000000,
       modifiedDate: Date.now()
     }; 
   
@@ -113,7 +110,6 @@ describe('Folder route, /api/folder', function () {
   describe('DELETE', function() {
     var folder = {
       name: "my folder",
-      createdDate: Date.now() - 10000000,
       modifiedDate: Date.now()
     };
 
