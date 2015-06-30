@@ -15,7 +15,7 @@ var app = require('../../../server/app');
 app.startApp(true);
 var request = require('supertest').agent(app.app);
 
-describe('Users route, /api/user', function () {
+describe('Admin users route, /api/user', function () {
 var cookie=[];
 
   before(function(done) {
@@ -27,15 +27,13 @@ var cookie=[];
   });
   
   // Necessary beforeEach and afterEach for authentication
-  var selfId;
   beforeEach('Create Session', function(done) {
     User.create({
       firstName: 'John',
       lastName: 'Doe',
-      password: 'I live on a pirate ship'
+      password: 'I live on a pirate ship',
+      admin: true
     }).then(function(user) {
-      selfId = user._id;
-
       request
       .post('/auth/login')
       .send({username: 'John', password: 'I live on a pirate ship'})
@@ -58,17 +56,17 @@ var cookie=[];
 
   describe('Auth', function() {
 
-    it('`/` fails if user is not admin', function(done) {
+    it('`/` succeeds if admin authenticated', function(done) {
         request
         .get('/api/user/')
-        .expect(401)
+        .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
           done();
         });
     });
     
-    it('`/` fails if user not authenticated', function(done) {
+    it('`/` fails if admin is not authenticated', function(done) {
         request.get('/logout').end(function() {
           request
           .get('/api/user/')
@@ -82,50 +80,14 @@ var cookie=[];
   });
 
   describe('GET', function() {
-    var user = {
-      firstName: "John ",
-      lastName: "Smith"
-    };  
-  
-    var id;
-    var updatedUser;
 
-    beforeEach('write project to db', function(done) {
-      User.create(user)
-        .then(function(savedUser) {
-          id = savedUser._id;
-          user.firstName = 'Jane';
-          done();
-        })
-        .then(null, done);
-    });
-
-    it('`/` Gets a 401 response', function(done) {
+    it('`/` Gets a 200 response with an array', function(done) {
         request
         .get('/api/user/')
-        .expect(401)
-        .end(function(err, res) {
-          if (err) return done(err);
-          done();
-        });
-    });
-
-    it('`/:id` Gets a 200 for self', function(done) {
-        request
-        .get('/api/user/' + id)
-        .expect(401)
-        .end(function(err, res) {
-          if (err) return done(err);
-          done();
-        });
-    });
-
-    it('`/:id` Gets a 401 for others', function(done) {
-        request
-        .get('/api/user/' + selfId)
         .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
+          expect(res.body).to.be.an('array');
           done();
         });
     });
@@ -134,7 +96,7 @@ var cookie=[];
 
   describe('POST', function() {
     
-    it('`/` Gets a 401 response', function(done) {
+    it('`/` Gets a 201 response and writes to the db', function(done) {
       var user = {
         firstName: "John ",
         lastName: "Smith"
@@ -143,9 +105,10 @@ var cookie=[];
       request
         .post('/api/user')
         .send(user)
-        .expect(401)
+        .expect(201)
         .end(function(err, res) {
           if (err) return done(err);
+          expect(res.body).to.be.an("object");
           done();
         });
     });
@@ -171,30 +134,19 @@ var cookie=[];
         .then(null, done);
     });
 
-    it('`/:id` Gets a 201 response and updates to the db for self', function(done) {
+    it('`/:id` Gets a 200 response and updates to the db', function(done) {
       request
-        .put('/api/user/' + selfId)
-        .send({firstName: "Moe"})
+        .put('/api/user/' + id)
+        .send(user)
         .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
-          expect(res.body.firstName).to.equal("Moe");
-          User.findOne({_id: selfId}).exec()
+          expect(res.body.firstName).to.equal(user.firstName);
+          User.findOne({_id: id}).exec()
           .then(function(foundUser) {
-            expect(foundUser.firstName).to.equal("Moe");
+            expect(foundUser.firstName).to.equal(user.firstName);
             done();
           });
-        });
-    });
-
-    it('`/:id` Gets a 401 response for others', function(done) {
-      request
-        .put('/api/user/' + id)
-        .send({firstName: "Moe"})
-        .expect(401)
-        .end(function(err, res) {
-          if (err) return done(err);
-          done();
         });
     });
 
@@ -208,7 +160,7 @@ var cookie=[];
 
     var id;
 
-    beforeEach('write user to db', function(done) {
+    beforeEach('write project to db', function(done) {
       User.create(user)
         .then(function(savedUser) {
           id = savedUser._id;
@@ -217,24 +169,14 @@ var cookie=[];
         .then(null, done);
     });
 
-    it('`/:id` Cannot delete others from the db', function(done) {
+    it('`/:id` Gets a 200 response and deletes from the db', function(done) {
       request
         .delete('/api/user/' + id)
-        .expect(401)
-        .end(function(err, res) {
-          if (err) return done(err);
-          done();
-        });
-    });    
-
-    it('`/:id` Can delete self from the db', function(done) {
-      request
-        .delete('/api/user/' + selfId)
         .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
           expect(res.body.n).to.equal(1);
-          User.findOne({ _id: selfId }).exec()
+          User.findOne({ _id: id }).exec()
           .then(function(err, result) {
             if(err) return done(err);
             expect(result).to.equal(undefined);
