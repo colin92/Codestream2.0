@@ -7,8 +7,15 @@ var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
 require('../../../server/db/models/project');
+require('../../../server/db/models/document');
+require('../../../server/db/models/folder');
+require('../../../server/db/models/snapshot');
 
 var Project = mongoose.model('Project');
+var Document = mongoose.model('Document');
+var Folder = mongoose.model('Folder');
+var Snapshot = mongoose.model('Snapshot');
+
 var app = require('../../../server/app');
 app.startApp(true);
 
@@ -42,19 +49,48 @@ describe('Projects route, /api/projects', function () {
   });
 
   describe('GET /:id', function() {
-    var project = {
-      name: "my project"
-    }; 
-
+    var proj, snap, doc, folder1, folder2, folder3;  
     var id;
 
     beforeEach('write project to db', function(done) {
-      Project.create(project)
-        .then(function(savedProject) {
-          id = savedProject._id;
-          done();
-        })
-        .then(null, done);
+      Snapshot.create({})
+      .then(function(_snap) {
+        snap = _snap;
+        return Document.create({
+          name: 'doc',
+          snapshots: [snap]
+        });
+      }).then(function(_doc) {
+        doc = _doc;
+        return Folder.create({
+          name: 'folder3',
+          documents: [doc._id]
+        });
+      }).then(function(_folder3) {
+        folder3 = _folder3;
+        return Folder.create({
+          name: 'folder2',
+          folders: [folder3._id],
+          documents: [doc._id]
+        });
+      }).then(function(_folder2) {
+        folder2 = _folder2;
+        return Folder.create({
+          name: 'folder1',
+          folders: [folder2._id],
+          documents: [doc._id]
+        });
+      }).then(function(_folder1) {
+        folder1 = _folder1;
+        return Project.create({
+          name: 'proj', 
+          rootFolder: folder1._id
+        }); 
+      }).then(function(_proj) {
+        proj = _proj;
+        id = proj._id;
+        return done(); 
+      });
     });
 
     it('`/:id` Gets a 200 response with an array', function(done) {
@@ -63,9 +99,16 @@ describe('Projects route, /api/projects', function () {
         .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
-          expect(res.body).to.be.an('object');
-          expect(res.body.name).to.equal('my project');
-          done();
+          var populatedProject = res.body;
+        expect(populatedProject.rootFolder.name).to.equal(folder1.name);
+        expect(populatedProject.rootFolder.folders[0].name).to
+               .equal(folder2.name);
+        expect(populatedProject.rootFolder.folders[0].documents[0]
+               .name).to.equal(doc.name);
+        expect(populatedProject.rootFolder.folders[0].documents[0]
+                .snapshots[0]._id.toString()).to.equal(String(snap._id));
+        expect(populatedProject.rootFolder.folders[0].folders[0].documents[0].name).to.equal(doc.name);
+        done();
         });
     });
 

@@ -13,12 +13,12 @@ var folderSchema = new mongoose.Schema({
     type: Date
   },
   documents: {
-    type: [mongoose.Schema.ObjectId],
-    ref: 'DocumentSchema'
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Document'
   },
   folders: {
-    type: [mongoose.Schema.ObjectId],
-    ref: 'FolderSchema'
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Folder'
   }
 });
 

@@ -21,7 +21,10 @@ router.get('/:id', function (req, res, next) {
 
   Project.findById({'_id': id}).exec()
     .then(function(foundProject) {
-      res.send(foundProject);
+      return foundProject.getProject();
+    })
+    .then(function(populatedProject) {
+      res.send(populatedProject);  
     })
     .then(null, next);
 
