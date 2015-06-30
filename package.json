@@ -41,12 +41,22 @@
     "run-sequence": "^1.1.0"
   },
   "devDependencies": {
+    "angular-mocks": "^1.4.1",
     "chai": "^3.0.0",
     "codeclimate-test-reporter": "0.0.4",
     "gulp": "^3.8.11",
     "gulp-mocha": "^2.1.1",
     "istanbul": "^0.3.16",
+    "karma": "^0.12.37",
+    "karma-chai": "^0.1.0",
+    "karma-chai-sinon": "^0.1.5",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.0.2",
+    "karma-phantomjs-launcher": "^0.2.0",
     "mocha-mongoose": "^1.0.4",
+    "phantomjs": "^1.9.17",
+    "sinon": "^1.15.4",
+    "sinon-chai": "^2.8.0",
     "supertest": "^1.0.1"
   }
 }
