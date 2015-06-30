@@ -31,7 +31,8 @@ var cookie=[];
     User.create({
       firstName: 'John',
       lastName: 'Doe',
-      password: 'I live on a pirate ship'
+      password: 'I live on a pirate ship',
+      admin: true
     }).then(function(user) {
       request
       .post('/auth/login')
@@ -46,7 +47,7 @@ var cookie=[];
   afterEach('Kill session', function (done) {
     request.get('/logout').end(function(err, res) {
       done();
-    })
+    });
   });
 
   afterEach('Clear test database', function (done) {
@@ -108,7 +109,7 @@ var cookie=[];
         .expect(201)
         .end(function(err, res) {
           if (err) return done(err);
-          expect(res.body).to.be.an.object;
+          expect(res.body).to.be.an("object");
           done();
         });
     });

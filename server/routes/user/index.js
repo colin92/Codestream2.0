@@ -9,7 +9,7 @@ module.exports = router;
 
 // FIX: modify this or tests to work together, consider implementing a localstrategy just for tests
 router.use('/', function(req, res, next) {
-  if(req.isAuthenticated()) {
+  if(req.isAuthenticated() && req.user.isAdmin()) {
     next();
   }
   else {
