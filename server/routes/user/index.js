@@ -9,31 +9,12 @@ module.exports = router;
 
 // FIX: modify this or tests to work together, consider implementing a localstrategy just for tests
 router.use('/', function(req, res, next) {
-  if(req.isAuthenticated() && req.user.isAdmin()) {
+  if(req.isAuthenticated()) {
     next();
   }
   else {
     res.sendStatus(401);
   }
-});
-
-// GET /api/user/
-router.get('/', function(req, res, next) {
-  User.find({}).exec()
-  .then(function(users) {
-    return res.status(200).send(users);
-  })
-  .then(null, next);
-});
-
-// POST /api/user/    
-router.post('/', function(req, res, next) {
-  // This route should not need to be used, users are created through Oauth login
-  User.create(req.body)
-  .then(function(user) {
-    return res.status(201).send(user);
-  })
-  .then(null, next);
 });
 
 // GET /api/user/login    
@@ -83,3 +64,30 @@ router.delete('/:id', function(req, res, next) {
 });
 
 
+router.use('/', function(req, res, next) {
+  if(req.user.isAdmin()) {
+    next();
+  }
+  else {
+    res.sendStatus(401);
+  }
+});
+
+// GET /api/user/
+router.get('/', function(req, res, next) {
+  User.find({}).exec()
+  .then(function(users) {
+    return res.status(200).send(users);
+  })
+  .then(null, next);
+});
+
+// POST /api/user/    
+router.post('/', function(req, res, next) {
+  // This route should not need to be used, users are created through Oauth login
+  User.create(req.body)
+  .then(function(user) {
+    return res.status(201).send(user);
+  })
+  .then(null, next);
+});
