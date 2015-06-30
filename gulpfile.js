@@ -8,7 +8,7 @@ var sass = require('gulp-sass');
 var rename = require('gulp-rename');
 var mocha = require('gulp-mocha');
 var babel = require('gulp-babel');
-
+var karma = require('karma').server;
 
 // Default
 gulp.task('default', function() {
@@ -24,6 +24,7 @@ gulp.task('default', function() {
 
     gulp.watch(['tests/server/**/*.js', 'server/**/*.js'], ['testServerJS']);
 
+    gulp.watch(['tests/client/**/*.js', 'public/**/*.js'], ['testClientJS']);
 });
 
 
@@ -62,5 +63,12 @@ gulp.task('buildCSS', function () {
 gulp.task('testServerJS', function() {
     return gulp.src('./tests/server/**/*.js', {read: false})
         .pipe(mocha({reporter: 'spec'}));
+});
+
+gulp.task('testClientJS', function(done) {
+    return karma.start({
+      configFile: __dirname + '/karma.conf.js',
+      singleRun: true
+    }, done);
 });
 
