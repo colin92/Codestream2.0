@@ -53,7 +53,7 @@ router.put('/:id', function(req, res, next) {
     });
     user.save(function(err) {
       if(err) return res.send(err);
-      res.status(201).send(user);
+      res.status(200).send(user);
     });
   })
   .then(null, next);
@@ -63,7 +63,7 @@ router.put('/:id', function(req, res, next) {
 router.delete('/:id', function(req, res, next) {
   User.remove({ _id: req.params.id })
     .then(function(result) {
-      return res.status(201).send(result);
+      return res.status(200).send(result);
     })
     .then(null, next);
 });
@@ -97,3 +97,4 @@ router.post('/', function(req, res, next) {
   })
   .then(null, next);
 });
+

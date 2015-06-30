@@ -134,7 +134,7 @@ var cookie=[];
         .then(null, done);
     });
 
-    it('`/:id` Gets a 201 response and updates to the db', function(done) {
+    it('`/:id` Gets a 200 response and updates to the db', function(done) {
       request
         .put('/api/user/' + id)
         .send(user)
@@ -169,7 +169,7 @@ var cookie=[];
         .then(null, done);
     });
 
-    it('`/:id` Gets a 201 response and deletes from the db', function(done) {
+    it('`/:id` Gets a 200 response and deletes from the db', function(done) {
       request
         .delete('/api/user/' + id)
         .expect(200)
