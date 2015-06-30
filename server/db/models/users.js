@@ -14,7 +14,11 @@ var userSchema = new mongoose.Schema({
   },
   salt: {
     type: String
-    }
+  },
+  admin: {
+    type: Boolean,
+    default: false
+  }
 });
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations
@@ -46,6 +50,10 @@ userSchema.statics.encryptPassword = encryptPassword;
 
 userSchema.method('correctPassword', function(candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;
+});
+
+userSchema.method('isAdmin', function() {
+  return this.admin;
 });
 
 mongoose.model('User', userSchema);
