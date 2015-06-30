@@ -138,7 +138,7 @@ var cookie=[];
       request
         .put('/api/user/' + id)
         .send(user)
-        .expect(201)
+        .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
           expect(res.body.firstName).to.equal(user.firstName);
@@ -172,7 +172,7 @@ var cookie=[];
     it('`/:id` Gets a 201 response and deletes from the db', function(done) {
       request
         .delete('/api/user/' + id)
-        .expect(201)
+        .expect(200)
         .end(function(err, res) {
           if (err) return done(err);
           expect(res.body.n).to.equal(1);
