@@ -13,8 +13,8 @@ var documentSchema = new mongoose.Schema({
     type: Date
   },
   snapshots: {
-    type: [mongoose.Schema.ObjectId],
-    ref: 'SnapshotSchema'
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Snapshot'
   }
 });
 
