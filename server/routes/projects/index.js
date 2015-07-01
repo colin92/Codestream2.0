@@ -7,13 +7,33 @@ var Project = mongoose.model('Project');
 
 module.exports = router;
 
-router.get('/', function (req, res) {
+router.use('/', function(req, res, next) {
+  if(req.isAuthenticated()) {
+    next();
+  }
+  else {
+    res.sendStatus(401);
+  }
+});
 
-  Project.find().exec()
-    .then(function(projects) {
-      res.send(projects);
+router.post('/', function(req, res, next) {
+  
+  Project.create(req.body)
+    .then(function(savedProject) {
+      res.status(201).send(savedProject);
     });
 
+});
+
+
+// ADMINs or self only
+router.use('/:id', function(req, res, next) {
+  if(req.user.isAdmin() || req.user.id === req.params.id) {
+    next();
+  }
+  else {
+    res.sendStatus(401);
+  }
 });
 
 router.get('/:id', function (req, res, next) {
@@ -27,15 +47,6 @@ router.get('/:id', function (req, res, next) {
       res.send(populatedProject);  
     })
     .then(null, next);
-
-});
-
-router.post('/', function(req, res, next) {
-  
-  Project.create(req.body)
-    .then(function(savedProject) {
-      res.status(201).send(savedProject);
-    });
 
 });
 
@@ -65,4 +76,23 @@ router.delete('/:id', function(req, res, next) {
       res.status(201).send(deletedProject);
     })
     .then(null, next);
+});
+
+
+// ADMINs only
+router.use('/', function(req, res, next) {
+  if(req.user.isAdmin()) {
+    next();
+  }
+  else {
+    res.sendStatus(401);
+  }
+});
+
+router.get('/', function (req, res) {
+  Project.find().exec()
+    .then(function(projects) {
+      res.send(projects);
+    });
+
 });
