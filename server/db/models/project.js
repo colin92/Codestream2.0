@@ -59,7 +59,7 @@ var getFoldersAndDocuments = function getFoldersAndDocuments(rootFolder) {
     if(rootFolder.folders && rootFolder.folders.length > 0) {
       // If there are folders within this folder, find them
       return mongoose.model('Folder').find({_id: { $in: rootFolder.folders }})
-      .exec()
+      .exec();
     }
   })
   .then(function(folders) {
@@ -88,6 +88,11 @@ projectSchema.methods.getProject = function getProject() {
     }); 
   });
 };
+
+projectSchema.method('isOwner', function(userId) {
+  if (this.owner.toString() === userId) return true;
+  return false;
+});
 
 projectSchema.statics.generateAccessCode = generateAccessCode;
 

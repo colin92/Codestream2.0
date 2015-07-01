@@ -17,37 +17,23 @@ router.use('/', function(req, res, next) {
   }
 });
 
-// GET /api/user/
-router.get('/', function(req, res, next) {
-  User.find({}).exec()
-  .then(function(users) {
-    return res.status(200).send(users);
-  })
-  .then(null, next);
-});
-
-// POST /api/user/    
-router.post('/', function(req, res, next) {
-  // This route should not need to be used, users are created through Oauth login
-  User.create(req.body)
-  .then(function(user) {
-    return res.status(201).send(user);
-  })
-  .then(null, next);
-});
-
-// GET /api/user/login    
-router.get('/login', function(req, res, next) {
-  res.redirect('/auth/google');
-});
-
 // GET /api/user/logout
 router.get('/logout', function(req, res, next) {
   res.logout();
   res.redirect('/');
 });
 
-// GET /api/user/:id
+
+// ADMINs or self only
+router.use('/:id', function(req, res, next) {
+  if(req.user.isAdmin() || req.user.id === req.params.id) {
+    next();
+  }
+  else {
+    res.sendStatus(401);
+  }
+});
+
 router.get('/:id', function(req, res, next) {
   User.findOne({ _id: req.params.id }).exec()
   .then(function(user) {
@@ -67,7 +53,7 @@ router.put('/:id', function(req, res, next) {
     });
     user.save(function(err) {
       if(err) return res.send(err);
-      res.status(201).send(user);
+      res.status(200).send(user);
     });
   })
   .then(null, next);
@@ -76,10 +62,39 @@ router.put('/:id', function(req, res, next) {
 // DELETE /api/user/:id
 router.delete('/:id', function(req, res, next) {
   User.remove({ _id: req.params.id })
-  .then(function(result) {
-    return res.status(201).send(result);
+    .then(function(result) {
+      return res.status(200).send(result);
+    })
+    .then(null, next);
+});
+
+
+// ADMINs only
+router.use('/', function(req, res, next) {
+  if(req.user.isAdmin()) {
+    next();
+  }
+  else {
+    res.sendStatus(401);
+  }
+});
+
+// GET /api/user/
+router.get('/', function(req, res, next) {
+  User.find({}).exec()
+  .then(function(users) {
+    return res.status(200).send(users);
   })
   .then(null, next);
 });
 
+// POST /api/user/    
+router.post('/', function(req, res, next) {
+  // This route should not need to be used, users are created through Oauth login
+  User.create(req.body)
+  .then(function(user) {
+    return res.status(201).send(user);
+  })
+  .then(null, next);
+});
 
