@@ -5,6 +5,8 @@ node_modules
 **/*.swp
 **/*.swo
 
+public/main.js
+
 config.js
 
 coverage
