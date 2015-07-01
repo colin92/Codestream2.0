@@ -33,12 +33,14 @@ describe('Projects route, /api/projects', function () {
   });
 
   // Necessary beforeEach and afterEach for authentication
+  var selfId;
   beforeEach('Create Session', function(done) {
     User.create({
       firstName: 'John',
       lastName: 'Doe',
       password: 'I live on a pirate ship',
     }).then(function(user) {
+      selfId = user._id;
       request
       .post('/auth/login')
       .send({username: 'John', password: 'I live on a pirate ship'})
@@ -96,7 +98,8 @@ describe('Projects route, /api/projects', function () {
         folder1 = _folder1;
         return Project.create({
           name: 'proj', 
-          rootFolder: folder1._id
+          rootFolder: folder1._id,
+          users: selfId
         }); 
       }).then(function(_proj) {
         proj = _proj;
