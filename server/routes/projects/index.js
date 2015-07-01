@@ -27,21 +27,27 @@ router.post('/', function(req, res, next) {
 
 
 // ADMINs or self only
-router.use('/:id', function(req, res, next) {
-  if(req.user.isAdmin() || req.user.id === req.params.id) {
-    next();
-  }
-  else {
-    res.sendStatus(401);
-  }
-});
+// router.use('/:id', function(req, res, next) {
+//   if(req.user.isAdmin() || req.user.id === req.params.id) {
+//     next();
+//   }
+//   else {
+//     res.sendStatus(401);
+//   }
+// });
 
 router.get('/:id', function (req, res, next) {
   var id = req.params.id;
 
   Project.findById({'_id': id}).exec()
     .then(function(foundProject) {
-      return foundProject.getProject();
+      //console.log(req.user.id);
+      //console.log(foundProject.owner.toString());
+      //console.log(foundProject.isOwner(req.user.id));
+      if(req.user.isAdmin() || foundProject.isOwner(req.user.id)) {
+        return foundProject.getProject();
+      }
+      else res.sendStatus(401);
     })
     .then(function(populatedProject) {
       res.send(populatedProject);  
@@ -58,12 +64,14 @@ router.put('/:id', function(req, res, next) {
     .then(function(foundProject) {
       foundProject.name = body.name;
       foundProject._id = id;
-
-      foundProject.save(function(err) {
-        if (err) return next(err);
-        res.status(201).send(foundProject);
-      });
-
+ 
+      if (req.user.isAdmin() || foundProject.isOwner(req.user.id)) {      
+        foundProject.save(function(err) {
+          if (err) return next(err);
+          res.status(201).send(foundProject);
+        });
+      }
+      else res.sendStatus(401);
     });
 
 });

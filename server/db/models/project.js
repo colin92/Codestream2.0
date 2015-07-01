@@ -89,6 +89,11 @@ projectSchema.methods.getProject = function getProject() {
   });
 };
 
+projectSchema.method('isOwner', function(userId) {
+  if (this.owner.toString() === userId) return true;
+  return false;
+});
+
 projectSchema.statics.generateAccessCode = generateAccessCode;
 
 projectSchema.pre('save', function(next) {

@@ -99,7 +99,7 @@ describe('Projects route, /api/projects', function () {
         return Project.create({
           name: 'proj', 
           rootFolder: folder1._id,
-          users: selfId
+          owner: selfId
         }); 
       }).then(function(_proj) {
         proj = _proj;
@@ -158,14 +158,14 @@ describe('Projects route, /api/projects', function () {
 
   describe('PUT', function() {
     var project = {
-      name: "my project"
+      name: "your project",
     }; 
   
     var id;
     var updatedProject;
 
     beforeEach('write project to db', function(done) {
-      Project.create(project)
+      Project.create({name: "my project", owner: selfId})
         .then(function(savedProject) {
           id = savedProject._id;
           project.name = 'your project';
