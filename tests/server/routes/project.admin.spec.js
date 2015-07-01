@@ -22,7 +22,7 @@ var app = require('../../../server/app');
 app.startApp(true);
 var request = require('supertest').agent(app.app);
 
-describe('Projects route, /api/projects', function () {
+describe('Admin projects route, /api/projects', function () {
 
   before(function(done) {
     mongoose.connect(dbURI, done);
@@ -32,15 +32,15 @@ describe('Projects route, /api/projects', function () {
     mongoose.disconnect(done);
   });
 
+
   // Necessary beforeEach and afterEach for authentication
-  var selfId;
   beforeEach('Create Session', function(done) {
     User.create({
       firstName: 'John',
       lastName: 'Doe',
       password: 'I live on a pirate ship',
+      admin: true
     }).then(function(user) {
-      selfId = user._id;
       request
       .post('/auth/login')
       .send({username: 'John', password: 'I live on a pirate ship'})
@@ -61,8 +61,22 @@ describe('Projects route, /api/projects', function () {
     clearDB(done);
   });
 
+  describe('GET /', function() {
 
-  describe('GET', function() {
+    it('`/` Gets a 200 response with an array', function(done) {
+      request
+        .get('/api/projects')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+          expect(res.body).to.be.an('array');
+          done();
+        });
+    });
+
+  });
+
+  describe('GET /:id', function() {
     var proj, snap, doc, folder1, folder2, folder3;  
     var id;
 
@@ -98,24 +112,13 @@ describe('Projects route, /api/projects', function () {
         folder1 = _folder1;
         return Project.create({
           name: 'proj', 
-          rootFolder: folder1._id,
-          owner: selfId
+          rootFolder: folder1._id
         }); 
       }).then(function(_proj) {
         proj = _proj;
         id = proj._id;
         return done(); 
       });
-    });
-
-    it('`/` Rejects a get all with 401', function(done) {
-      request
-        .get('/api/projects')
-        .expect(401)
-        .end(function(err, res) {
-          if (err) return done(err);
-          done();
-        });
     });
 
     it('`/:id` Gets a 200 response with an array', function(done) {
@@ -125,12 +128,15 @@ describe('Projects route, /api/projects', function () {
         .end(function(err, res) {
           if (err) return done(err);
           var populatedProject = res.body;
-          expect(populatedProject.rootFolder.name).to.equal(folder1.name);
-          expect(populatedProject.rootFolder.folders[0].name).to.equal(folder2.name);
-          expect(populatedProject.rootFolder.folders[0].documents[0].name).to.equal(doc.name);
-          expect(populatedProject.rootFolder.folders[0].documents[0].snapshots[0]._id.toString()).to.equal(String(snap._id));
-          expect(populatedProject.rootFolder.folders[0].folders[0].documents[0].name).to.equal(doc.name);
-          done();
+        expect(populatedProject.rootFolder.name).to.equal(folder1.name);
+        expect(populatedProject.rootFolder.folders[0].name).to
+               .equal(folder2.name);
+        expect(populatedProject.rootFolder.folders[0].documents[0]
+               .name).to.equal(doc.name);
+        expect(populatedProject.rootFolder.folders[0].documents[0]
+                .snapshots[0]._id.toString()).to.equal(String(snap._id));
+        expect(populatedProject.rootFolder.folders[0].folders[0].documents[0].name).to.equal(doc.name);
+        done();
         });
     });
 
@@ -158,14 +164,14 @@ describe('Projects route, /api/projects', function () {
 
   describe('PUT', function() {
     var project = {
-      name: "your project",
+      name: "my project"
     }; 
   
     var id;
     var updatedProject;
 
     beforeEach('write project to db', function(done) {
-      Project.create({name: "my project", owner: selfId})
+      Project.create(project)
         .then(function(savedProject) {
           id = savedProject._id;
           project.name = 'your project';
